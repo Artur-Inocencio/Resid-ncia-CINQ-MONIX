@@ -61,6 +61,7 @@ const Goal = () => {
         .from('goals')
         .insert([
           {
+            id, 
             user_id: userId, // Definir o user_id com o id do usuário autenticado
             objetivo: newGoal.objetivo,
             valor_inicial: parseFloat(newGoal.valor_inicial),
@@ -88,7 +89,7 @@ const Goal = () => {
       const { data, error } = await supabaseClient
         .from('goals')
         .update({
-               user_id: userId, // Definir o user_id com o id do usuário autenticado
+               user_id: userId,
             objetivo: objetivo,
             valor_inicial: parseFloat(valor_inicial),
             prazo: prazo,
@@ -102,6 +103,7 @@ const Goal = () => {
       } else {
         console.log('Item updated:', data);
         fetchGoals();
+        setEditingId(null);
       }
     } catch (error) {
       console.error('Error updating item:', error.message);
@@ -164,7 +166,7 @@ const Goal = () => {
   return (
     <div className="goal-container">
       <div className="form-container">
-        <h2>Create New Goal</h2>
+        <h2>CRIE NOVOS OBJETIVOS</h2>
         <form onSubmit={(e) => {
           e.preventDefault();
           handleCreateGoal();
@@ -174,43 +176,43 @@ const Goal = () => {
             name="objetivo"
             value={newGoal.objetivo}
             onChange={handleChange}
-            placeholder="Goal name"
+            placeholder="TITULO DO OBJETIVO"
           />
           <input
             type="number"
             name="valor_inicial"
             value={newGoal.valor_inicial}
             onChange={handleChange}
-            placeholder="Initial value"
+            placeholder="VALOR INICIAL"
           />
           <input
             type="date"
             name="prazo"
             value={newGoal.prazo}
             onChange={handleChange}
-            placeholder="Deadline"
+            placeholder="VENCIMENTO"
           />
           <input
             type="number"
             name="valor_desejado"
             value={newGoal.valor_desejado}
             onChange={handleChange}
-            placeholder="Desired value"
+            placeholder="VALOR OBJETIVO"
           />
-          <button type="submit">Create Goal</button>
+          <button type="submit">Criar Objetivo</button>
         </form>
       </div>
 
       <div className="panel-container">
-        <h2>Goal Panel</h2>
+        <h2>PAINEL DE OBJETIVOS</h2>
         <table className="goal-table">
           <thead>
             <tr>
-              <th>Goal</th>
-              <th>Initial Value</th>
-              <th>Deadline</th>
-              <th>Desired Value</th>
-              <th>Actions</th>
+              <th>OBJETIVOS</th>
+              <th>VALOR INICIAL</th>
+              <th>VENCIMENTO</th>
+              <th>VALOR OBJETIVO</th>
+              <th>AÇÕES</th>
             </tr>
           </thead>
           <tbody>
@@ -221,8 +223,8 @@ const Goal = () => {
                 <td>{editingId === goal.id ? <input type="date" defaultValue={goal.prazo} onChange={(e) => setPrazo(e.target.value)} /> : goal.prazo}</td>
                 <td>{editingId === goal.id ? <input type="number" defaultValue={goal.valor_desejado} onChange={(e) => setValor_desejado(e.target.value)} /> : goal.valor_desejado}</td>
                 <td>
-                  {editingId === goal.id ? <button onClick={() => updateGoal(goal.id)}>Save</button> : <button onClick={() => handleUpdateClick(goal)}>Update</button>}
-                  <button onClick={() => deleteGoal(goal.id)}>Delete</button>
+                  {editingId === goal.id ? <button onClick={() => updateGoal(goal.id)}>Salvar</button> : <button onClick={() => handleUpdateClick(goal)}>Atualizar</button>}
+                  <button onClick={() => deleteGoal(goal.id)}>Deletar</button>
                 </td>
               </tr>
             ))}
